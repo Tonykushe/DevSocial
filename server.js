@@ -1,7 +1,7 @@
+const config = require('./config/config');
 const express = require('express');
 const mongoose = require('mongoose')
-const keys = require('./config/keys')
-
+const bodyParser = require('body-parser')
 
 const auth = require('./routes/api/auth')
 const profile = require('./routes/api/profile')
@@ -10,8 +10,12 @@ const posts = require('./routes/api/posts')
 // Initialize express
 const app = express();
 
+// Body-Parser middleware
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
 // Connect to MongoDB
-mongoose.connect(keys.mongoURI)
+mongoose.connect(config.mongoURI)
     .then(() => console.log('Success! Connected to MongoDB'))
     .catch(err => console.log(err))
 
