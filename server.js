@@ -19,7 +19,7 @@ mongoose.connect(config.mongoURI)
     .then(() => console.log('Success! Connected to MongoDB'))
     .catch(err => console.log(err))
 
-app.get('/', (req, res) => res.send('Hello Tony'))
+app.get('/', (req, res) => res.send('Hello Tony Mugendi'))
 
 // Use Routes
 app.use('/api/auth', auth)
