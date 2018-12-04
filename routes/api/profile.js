@@ -134,7 +134,57 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
    })
 
     
-})
+});
+
+
+// @route   POST api/profile/experience
+// @desc    Add experience to profile
+// @access  Private
+router.post('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Profile.findOne({ user: req.user.id })
+        .then(profile => {
+            const newExp = {
+                title: req.body.title,
+                company: req.body.company,
+                location: req.body.location,
+                from: req.body.from,
+                to: req.body.to,
+                current: req.body.current,
+                description: req.body.description
+            }
+
+            // Add to experience Array
+            profile.experience.unshift(newExp)
+
+            profile.save().then(profile => res.json(profile))
+        })
+
+});
+
+
+// @route   POST api/profile/education
+// @desc    Add education to profile
+// @access  Private
+router.post('/education', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Profile.findOne({ user: req.user.id })
+        .then(profile => {
+            const newEdu = {
+                school: req.body.school,
+                degree: req.body.degree,
+                fieldofstudy: req.body.fieldofstudy,
+                from: req.body.from,
+                to: req.body.to,
+                current: req.body.current,
+                description: req.body.description
+            }
+
+            // Add to experience Array
+            profile.education.unshift(newEdu)
+
+            profile.save().then(profile => res.json(profile))
+        })
+
+});
 
 
 
