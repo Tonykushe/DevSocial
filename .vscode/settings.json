@@ -1,25 +1,4 @@
 {
   "git.ignoreLimitWarning": true,
-  "files.exclude": {
-    "*.git": true,
-    "*.git.*": true,
-    "*.gitignore": true,
-    "*.gitignore.*": true,
-    "*.vscode": true,
-    "*.vscode.*": true,
-    "*config": true,
-    "*config.*": true,
-    "*models": true,
-    "*models.*": true,
-    "*node_modules": true,
-    "*node_modules.*": true,
-    "*package-lock": true,
-    "*package-lock.*": true,
-    "*package": true,
-    "*package.*": true,
-    "*routes": true,
-    "*routes.*": true,
-    "*server": true,
-    "*server.*": true
-  }
+  "files.exclude": {}
 }

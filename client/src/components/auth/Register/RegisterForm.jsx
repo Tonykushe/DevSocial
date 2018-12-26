@@ -1,5 +1,22 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import { withRouter } from "react-router-dom";
+// import propTypes from 'propTypes';
+import { connect } from "react-redux";
+import { registerUser } from "../authActions";
+
+
+const actions = {
+    registerUser
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+
+
 
 class RegisterForm extends Component {
 
@@ -11,6 +28,12 @@ class RegisterForm extends Component {
             password: '',
             password2: '',
             errors: {}
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors})
         }
     }
 
@@ -27,7 +50,7 @@ class RegisterForm extends Component {
             password: this.state.password,
             password2: this.state.password2
         }
-        console.log(newUser);
+        this.props.registerUser(newUser, this.props.history)
         
     }
 
@@ -102,4 +125,10 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm;
+// RegisterForm.propTypes = {
+//     registerUser: PropTypes.func.isRequired,
+//     auth: PropTypes.object.isRequired,
+//     errors: PropTypes.object.isRequired
+// }
+
+export default connect(mapStateToProps, actions)(withRouter(RegisterForm));
