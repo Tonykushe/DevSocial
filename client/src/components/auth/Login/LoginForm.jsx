@@ -26,6 +26,12 @@ class LoginForm extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/dashboard')
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.isAuthenticated) {
             this.props.history.push('/dashboard')

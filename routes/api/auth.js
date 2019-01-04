@@ -6,6 +6,11 @@ const jwt = require('jsonwebtoken')
 const keys = require('../../config/keys')
 const passport = require('passport')
 
+// Load input validation
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+
+
 
 //Load User model
 const User = require('../../models/User')
@@ -21,11 +26,18 @@ router.get('/test', (req, res) => res.json({msg: 'Auth Works'}));
 // @desc    Register new User
 // @access  Public
 router.post('/register', (req, res) => {
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
     // Check if email already exists
     const email = req.body.email
     User.findOne({email}).then(user => {
         if (user) {
-            return res.status(400).json({email: 'Email already exists'})
+            errors.email = 'Email already exists';
+            return res.status(400).json(errors);
         } else {
             const avatar = gravatar.url(req.body.email, {
                 s: '200', // Size
@@ -58,20 +70,28 @@ router.post('/register', (req, res) => {
 // @desc    Login user / Return JWT Token
 // @access  Public
 router.post('/login', (req, res) => {
+    const { errors, isValid } = validateLoginInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const email = req.body.email;
     const password = req.body.password
 
     User.findOne({email}).then(user => {
         // Check if user doesn't exist
         if (!user) {
-            return res.status(404).json({email: 'User not found'})
+            errors.email = 'User not found';
+            return res.status(404).json(errors);
         }
 
         // Check Password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
                 // Create JWT Payload
-                const payload = {id: user._id, name: user.name}
+                const payload = {id: user._id, name: user.name, avatar: user.avatar}
                 // Sign the Token
                 jwt.sign(payload, keys.secretOrKey, {expiresIn: 604800}, (err, token) => {
                     res.json({
@@ -80,7 +100,8 @@ router.post('/login', (req, res) => {
                     })
                 })
             } else {
-                return res.status(400).json({password: 'Password incorrect'})
+                errors.password = 'Password incorrect';
+                return res.status(400).json(errors);
             }
         })
     })
