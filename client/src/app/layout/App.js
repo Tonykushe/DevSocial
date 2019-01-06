@@ -8,6 +8,7 @@ import Landing from '../../components/layout/Landing';
 import LoginForm from '../../components/auth/Login/LoginForm'
 import RegisterForm from '../../components/auth/Register/RegisterForm'
 import Dashboard from '../../components/profile/Dashboard/Dashboard'
+import ProfileForm from '../../components/profile/ProfileForm/ProfileForm'
 
 class App extends Component {
   render() {
@@ -21,6 +22,9 @@ class App extends Component {
                     <Route exact path='/login' component={LoginForm} />
                     <Switch>
                         <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                    </Switch>
+                    <Switch>
+                        <PrivateRoute exact path='/create-profile' component={ProfileForm} />
                     </Switch>
                 </div>
                 <Footer />
