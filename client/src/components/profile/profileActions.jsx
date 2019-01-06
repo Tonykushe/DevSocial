@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from "./profileConstants";
-import { GET_ERRORS } from "../errors/errorConstants";
+// import { GET_ERRORS } from "../errors/errorConstants";
 
 
 // Get current users profile

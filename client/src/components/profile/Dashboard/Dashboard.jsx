@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../profileActions";
+import Spinner from '../../../app/common/Spinner'
 
 const actions = {
     getCurrentProfile
 }
+
+const mapState = (state) => ({
+    profile: state.profile,
+    auth: state.auth
+})
 
 
 class Dashboard extends Component {
@@ -14,12 +21,49 @@ class Dashboard extends Component {
     }
 
     render() {
+        const { user } = this.props.auth
+        const { profile, loading } = this.props.profile
+
+        let dashboardContent;
+
+        if (profile === null || loading) {
+            dashboardContent = <Spinner />
+        } else {
+            // Check if logged in user has profile data
+            if (Object.keys(profile).length > 0) {
+                dashboardContent = <h4>TODO: DISPLAY PROFILE</h4>
+            } else {
+                // User is logged in but has no profile
+                dashboardContent = (
+                    <div>
+                        <p className="lead text-muted">Welcome { user.name }</p>
+                        <p>You have not yet set up a profile, please add some info</p>
+                        <Link to="/create-profile" className="btn btn-lg btn-info">
+                            Create Profile
+                        
+                        </Link>
+                    </div>
+                )
+            }
+        }
         return (
-            <div>
-                <h1>Dashboard</h1>
+            <div className="dashboard">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="display-4">Dashboard</h1>
+                            {dashboardContent}
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-export default connect(null, actions)(Dashboard)
+Dashboard.propTypes = {
+    getCurrentProfile: PropTypes.func.isRequired
+}
+
+
+export default connect(mapState, actions)(Dashboard)
