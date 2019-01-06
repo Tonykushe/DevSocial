@@ -8,6 +8,7 @@ import './index.css';
 import App from './app/layout/App';
 import store from './app/store/store';
 import * as serviceWorker from './serviceWorker';
+import { clearCurrentProfile } from './components/profile/profileActions';
 
 
 const rootEl = document.getElementById('root')
@@ -27,6 +28,7 @@ if (localStorage.jwtToken) {
         // logout user
         store.dispatch(logoutUser())
         // Clear current profile
+        store.dispatch(clearCurrentProfile)
         // Redirect to login
         window.location.href = '/login'
     }
