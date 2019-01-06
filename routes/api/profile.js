@@ -7,6 +7,12 @@ const Profile = require('../../models/Profile')
 // Load User Model
 const User = require('../../models/User')
 
+
+// Load Validation
+const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
+
 // @route   GET api/profile/test
 // @desc    Test profile route
 // @access  Public
@@ -92,7 +98,13 @@ router.get('/user/:user_id', (req, res) => {
 // @desc    create or Update User's Profile
 // @access  Private
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
-    const errors = {}
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
     // Get Fields
     const profileFields = {}
     profileFields.user = req.user.id
@@ -141,6 +153,13 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 // @desc    Add experience to profile
 // @access  Private
 router.post('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { errors, isValid } = validateExperienceInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
     Profile.findOne({ user: req.user.id })
         .then(profile => {
             const newExp = {
@@ -166,6 +185,13 @@ router.post('/experience', passport.authenticate('jwt', { session: false }), (re
 // @desc    Add education to profile
 // @access  Private
 router.post('/education', passport.authenticate('jwt', { session: false }), (req, res) => {
+    const { errors, isValid } = validateEducationInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
     Profile.findOne({ user: req.user.id })
         .then(profile => {
             const newEdu = {

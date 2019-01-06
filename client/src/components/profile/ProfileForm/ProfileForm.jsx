@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from 'prop-types'
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
 import InputGroup from '../../../app/common/form/InputGroup';
+import { createProfile } from "../profileActions";
+
+const actions = {
+    createProfile
+}
 
 const mapState = (state) => ({
     profile: state.profile,
@@ -23,7 +29,7 @@ class ProfileForm extends Component {
             location: '',
             status: '',
             skills: '',
-            githubusername: '',
+            github: '',
             bio: '',
             twitter: '',
             facebook: '',
@@ -34,13 +40,35 @@ class ProfileForm extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({errors: nextProps.errors})
+        }
+    }
+
     onChange = ({ target }) => {
         this.setState({ [target.name]: target.value })
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log('submit');
+
+        const profileData = {
+            handle: this.state.handle,
+            company: this.state.company,
+            website: this.state.website,
+            location: this.state.location,
+            status: this.state.status,
+            skills: this.state.skills,
+            github: this.state.github,
+            bio: this.state.bio,
+            twitter: this.state.twitter,
+            facebook: this.state.facebook,
+            linkedin: this.state.linkedin,
+            youtube: this.state.youtube,
+            instagram: this.state.instagram
+        }
+        this.props.createProfile(profileData, this.props.history)
         
     }
     render() {
@@ -127,7 +155,7 @@ class ProfileForm extends Component {
                                 />
                                 <SelectInput
                                     placeholder="Status"
-                                    name="handle"
+                                    name="status"
                                     value={this.state.status}
                                     options={options}
                                     onChange={this.onChange}
@@ -168,10 +196,10 @@ class ProfileForm extends Component {
                                 />
                                 <TextInput
                                     placeholder="Github username"
-                                    name="githubusername"
-                                    value={this.state.githubusername}
+                                    name="github"
+                                    value={this.state.github}
                                     onChange={this.onChange}
-                                    error={errors.githubusername}
+                                    error={errors.github}
                                     info=" If you want your latest repos and a Github link, include your username "
                                 />
                                 <TextArea
@@ -183,7 +211,9 @@ class ProfileForm extends Component {
                                     info="Tell us a little about yourself"
                                 />
                                 <div className="mb-3">
-                                    <button onClick={() => {
+                                    <button 
+                                        type="button"
+                                        onClick={() => {
                                         this.setState(prevState => ({
                                             displaySocialInputs: !prevState.displaySocialInputs
                                         }))
@@ -209,4 +239,4 @@ ProfileForm.propTypes = {
     errors: PropTypes.object.isRequired
 }
 
-export default connect(mapState)(ProfileForm)
+export default connect(mapState, actions)(withRouter(ProfileForm))
