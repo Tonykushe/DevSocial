@@ -9,6 +9,7 @@ import LoginForm from '../../components/auth/Login/LoginForm'
 import RegisterForm from '../../components/auth/Register/RegisterForm'
 import Dashboard from '../../components/profile/Dashboard/Dashboard'
 import ProfileForm from '../../components/profile/ProfileForm/ProfileForm'
+import EditProfile from '../../components/profile/ProfileActions/EditProfile';
 
 class App extends Component {
   render() {
@@ -25,6 +26,9 @@ class App extends Component {
                     </Switch>
                     <Switch>
                         <PrivateRoute exact path='/create-profile' component={ProfileForm} />
+                    </Switch>
+                    <Switch>
+                        <PrivateRoute exact path='/edit-profile' component={EditProfile} />
                     </Switch>
                 </div>
                 <Footer />

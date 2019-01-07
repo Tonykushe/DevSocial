@@ -6,10 +6,12 @@ import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
 import InputGroup from '../../../app/common/form/InputGroup';
-import { createProfile } from "../profileActions";
+import { createProfile, getCurrentProfile } from "../profileActions";
+import isEmpty from '../../../app/validation/is-empty';
 
 const actions = {
-    createProfile
+    createProfile,
+    getCurrentProfile
 }
 
 const mapState = (state) => ({
@@ -40,9 +42,49 @@ class ProfileForm extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getCurrentProfile();
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
-            this.setState({errors: nextProps.errors})
+            this.setState({ errors: nextProps.errors })
+        }
+        if (nextProps.profile.profile) {
+            const profile = nextProps.profile.profile;
+
+            // Bring skills array back to CSV - comma separated values
+            const skillsCSV = profile.skills.join(',')
+
+            // If profile field doesn't exist, make it empty string
+            profile.company = !isEmpty(profile.company) ? profile.company : '';
+            profile.website = !isEmpty(profile.website) ? profile.website : '';
+            profile.location = !isEmpty(profile.location) ? profile.location : '';
+            profile.github = !isEmpty(profile.github) ? profile.github : '';
+            profile.bio = !isEmpty(profile.bio) ? profile.bio : '';
+            profile.social = !isEmpty(profile.social) ? profile.social : {};
+            profile.twitter = !isEmpty(profile.social.twitter) ? profile.twitter : '';
+            profile.facebook = !isEmpty(profile.social.facebook) ? profile.facebook : '';
+            profile.linkedin = !isEmpty(profile.social.linkedin) ? profile.linkedin : '';
+            profile.youtube = !isEmpty(profile.social.youtube) ? profile.youtube : '';
+            profile.instagram = !isEmpty(profile.social.instagram) ? profile.instagram : '';
+
+            // Set component fields state
+            this.setState({
+                handle: profile.handle,
+                company: profile.company,
+                website: profile.website,
+                location: profile.location,
+                status: profile.status,
+                skills: skillsCSV,
+                github: profile.github,
+                bio: profile.bio,
+                twitter: profile.twitter,
+                facebook: profile.facebook,
+                linkedin: profile.linkedin,
+                youtube: profile.youtube,
+                instagram: profile.instagram,
+            })
         }
     }
 
@@ -69,7 +111,7 @@ class ProfileForm extends Component {
             instagram: this.state.instagram
         }
         this.props.createProfile(profileData, this.props.history)
-        
+
     }
     render() {
         const { errors, displaySocialInputs } = this.state
@@ -78,7 +120,7 @@ class ProfileForm extends Component {
         if (displaySocialInputs) {
             socialInputs = (
                 <div>
-                    <InputGroup 
+                    <InputGroup
                         placeholder="Twitter Profile URL"
                         name="twitter"
                         icon="fab fa-twitter"
@@ -139,10 +181,7 @@ class ProfileForm extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 m-auto">
-                            <h1 className="display-4 text-center">Create your profile</h1>
-                            <p className="lead text-center">
-                                Make it stand out
-                            </p>
+                            <h1 className="display-4 text-center">Edit profile</h1>
                             <small className="d-block pb-3">* = required fields</small>
                             <form onSubmit={this.onSubmit}>
                                 <TextInput
@@ -211,19 +250,19 @@ class ProfileForm extends Component {
                                     info="Tell us a little about yourself"
                                 />
                                 <div className="mb-3">
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={() => {
-                                        this.setState(prevState => ({
-                                            displaySocialInputs: !prevState.displaySocialInputs
-                                        }))
-                                    }}className="btn btn-secondary">
+                                            this.setState(prevState => ({
+                                                displaySocialInputs: !prevState.displaySocialInputs
+                                            }))
+                                        }} className="btn btn-secondary">
                                         Add Social Network Links
                                     </button>
                                     <span className="text-muted">Optional</span>
                                 </div>
                                 {socialInputs}
-                                <input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
+                                <input type="submit" value="Submit" className="btn btn-info btn-block mt-4" />
                             </form>
                         </div>
                     </div>
@@ -236,7 +275,9 @@ class ProfileForm extends Component {
 
 ProfileForm.propTypes = {
     profile: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired
 }
 
 export default connect(mapState, actions)(withRouter(ProfileForm))
