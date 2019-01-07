@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCurrentProfile } from "../profileActions";
+import { getCurrentProfile, deleteAccount } from "../profileActions";
 import Spinner from '../../../app/common/Spinner'
+import ProfileActions from '../ProfileActions/ProfileActions';
 
 const actions = {
-    getCurrentProfile
+    getCurrentProfile,
+    deleteAccount
 }
 
 const mapState = (state) => ({
@@ -20,6 +22,10 @@ class Dashboard extends Component {
         this.props.getCurrentProfile();
     }
 
+    onDelete(e) {
+        this.props.deleteAccount()
+    }
+
     render() {
         const { user } = this.props.auth
         const { profile, loading } = this.props.profile
@@ -31,7 +37,17 @@ class Dashboard extends Component {
         } else {
             // Check if logged in user has profile data
             if (Object.keys(profile).length > 0) {
-                dashboardContent = <h4>TODO: DISPLAY PROFILE</h4>
+                dashboardContent = (
+                    <div>
+                        <p className="lead text-muted">
+                            Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+                        </p>
+                        <ProfileActions />
+                        {/* TODO: experience & todo */}
+                        <div style={{ marginBottom: '60px' }}/>
+                        <button onClick={this.onDelete.bind(this)} className="btn btn-danger">Delete My Account</button>
+                    </div>
+                )
             } else {
                 // User is logged in but has no profile
                 dashboardContent = (
@@ -62,7 +78,10 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired
+    getCurrentProfile: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
 }
 
 
