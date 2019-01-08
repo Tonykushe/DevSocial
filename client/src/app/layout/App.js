@@ -10,6 +10,7 @@ import RegisterForm from '../../components/auth/Register/RegisterForm'
 import Dashboard from '../../components/profile/Dashboard/Dashboard'
 import ProfileForm from '../../components/profile/ProfileForm/ProfileForm'
 import EditProfile from '../../components/profile/ProfileActions/EditProfile';
+import AddExperience from '../../components/profile/ProfileActions/Experience/AddExperience';
 
 class App extends Component {
   render() {
@@ -29,6 +30,9 @@ class App extends Component {
                     </Switch>
                     <Switch>
                         <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+                    </Switch>
+                    <Switch>
+                        <PrivateRoute exact path='/add-experience' component={AddExperience} />
                     </Switch>
                 </div>
                 <Footer />
