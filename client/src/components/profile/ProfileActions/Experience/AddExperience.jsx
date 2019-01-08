@@ -100,7 +100,7 @@ class AddExperience extends Component {
                                     name="location"
                                     value={this.state.location}
                                     onChange={this.onChange}
-                                    error={errors.company}
+                                    error={errors.location}
                                 />
                                 <h6>From Date</h6>
                                 <TextInput
