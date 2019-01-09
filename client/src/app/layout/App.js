@@ -12,6 +12,7 @@ import ProfileForm from '../../components/profile/ProfileForm/ProfileForm'
 import EditProfile from '../../components/profile/ProfileActions/EditProfile';
 import AddExperience from '../../components/profile/ProfileActions/Experience/AddExperience';
 import AddEducation from '../../components/profile/ProfileActions/Education/AddEducation';
+import Profiles from '../../components/profile/Profiles/Profiles';
 
 class App extends Component {
   render() {
@@ -38,6 +39,7 @@ class App extends Component {
                     <Switch>
                         <PrivateRoute exact path='/add-education' component={AddEducation} />
                     </Switch>
+                    <Route exact path='/profiles' component={Profiles} />
                 </div>
                 <Footer />
             </div>
