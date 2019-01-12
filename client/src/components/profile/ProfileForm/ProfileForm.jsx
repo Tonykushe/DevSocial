@@ -171,7 +171,7 @@ class ProfileForm extends Component {
                                     info="Could be your own company or one you work for "
                                 />
                                 <TextInput
-                                    placeholder="website"
+                                    placeholder="Website"
                                     name="website"
                                     value={this.state.website}
                                     onChange={this.onChange}
