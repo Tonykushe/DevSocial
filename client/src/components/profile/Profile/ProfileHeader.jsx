@@ -47,8 +47,8 @@ class ProfileHeader extends Component {
                                         <i className="fab fa-instagram fa-2x"></i>
                                     </a>
                                 )}
-                                <a class="text-white p-2" href="#">
-                                    <i class="fas fa-globe fa-2x"></i>
+                                <a className="text-white p-2" href="#">
+                                    <i className="fas fa-globe fa-2x"></i>
                                 </a>
                             </p>
                         </div>
