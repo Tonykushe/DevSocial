@@ -14,6 +14,7 @@ import AddExperience from '../../components/profile/ProfileActions/Experience/Ad
 import AddEducation from '../../components/profile/ProfileActions/Education/AddEducation';
 import Profiles from '../../components/profile/Profiles/Profiles';
 import Profile from '../../components/profile/Profile/Profile';
+import NotFound from '../../components/not-found/NotFound';
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
                     </Switch>
                     <Route exact path='/profiles' component={Profiles} />
                     <Route exact path='/profile/:handle' component={Profile} />
+                    <Route exact path='/not-found' component={NotFound} />
                 </div>
                 <Footer />
             </div>
