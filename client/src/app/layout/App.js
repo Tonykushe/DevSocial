@@ -15,6 +15,7 @@ import AddEducation from '../../components/profile/ProfileActions/Education/AddE
 import Profiles from '../../components/profile/Profiles/Profiles';
 import Profile from '../../components/profile/Profile/Profile';
 import NotFound from '../../components/not-found/NotFound';
+import Posts from '../../components/post/Posts/Posts';
 
 class App extends Component {
   render() {
@@ -40,6 +41,9 @@ class App extends Component {
                     </Switch>
                     <Switch>
                         <PrivateRoute exact path='/add-education' component={AddEducation} />
+                    </Switch>
+                    <Switch>
+                        <PrivateRoute exact path='/feed' component={Posts} />
                     </Switch>
                     <Route exact path='/profiles' component={Profiles} />
                     <Route exact path='/profile/:handle' component={Profile} />

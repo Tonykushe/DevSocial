@@ -1,3 +1,5 @@
+import { ADD_POST } from "./postConstants";
+
 const initialState = {
     posts: [],
     post: {},
@@ -6,8 +8,14 @@ const initialState = {
 
 const postReducer = (state = initialState, action) => {
     switch (action.type) {
-    
+        case  ADD_POST:
+            return {
+                ...state,
+                posts: [action.payload, ...state.posts]
+            }
         default:
             return state;
     }
 }
+
+export default postReducer;
