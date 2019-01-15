@@ -17,6 +17,10 @@ const mapState = (state) => ({
 
 
 class Posts extends Component {
+
+    componentDidMount() {
+        this.props.getPosts();
+    }
     render() {
         const { posts, loading } = this.props.post;
         let postContent;
