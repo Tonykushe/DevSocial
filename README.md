@@ -1,8 +1,11 @@
-DevSocila
-Small social network app built with the MERN stack. 
-Link to live website https://boiling-thicket-34606.herokuapp.com
+# DevSocial
 
-Quick Start
+> Small social network app built with the MERN stack. 
+> Link to live website https://boiling-thicket-34606.herokuapp.com
+
+## Quick Start
+
+```bash
 # Install dependencies for server
 npm install
 
@@ -19,18 +22,27 @@ npm run server
 npm run client
 
 # Server runs on http://localhost:5000 and client on http://localhost:3000
-You will need to create a keys_dev.js in the server config folder with
+```
 
+You will need to create a keys.js in the server config folder with
+
+```
 module.exports = {
   mongoURI: 'YOUR_OWN_MONGO_URI',
   secretOrKey: 'YOUR_OWN_SECRET'
 };
-App Info
-Author
+```
+
+## App Info
+
+### Author
+
 Tony Mugendi
 
-Version
+### Version
+
 1.0.0
 
-License
+### License
+
 This project is licensed under the MIT License
